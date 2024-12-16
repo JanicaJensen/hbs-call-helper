@@ -1,64 +1,81 @@
-//function to display the date and time on the page
-//naming the funciton
+// Function to display the date and time on the page
 function displayDateTime() {
-  //declaring constant NOW which is calling a new date
+  // declare constatnt new Date, built in to javascript
   const now = new Date();
-  // formatting the date
+  // const options format how we want to see the date
   const options = {
-    // says SUNDAY in long format not SUN
     weekday: "long",
-    // year is numeric "2024"
     year: "numeric",
-    // month is long DECEMBER not DEC
     month: "long",
-    // day is a number?
     day: "numeric",
-    // hour is 2 digit
     hour: "2-digit",
-    // minute is 2 digit
     minute: "2-digit",
-    // seconds are 2 digit
     second: "2-digit",
   };
-  // declaring new const, formattedDateTime which takes NOW and makes a string that conforms to US date/time conventions
+  // formattedDateTime is using toLocalestring which lays it out with our local conventions + our options we chose
   const formattedDateTime = now.toLocaleString("en-US", options);
-  // pulls the div with the ID datetime and sets the innertext to this formattedDate
+  // adds the innerText to the dateTime div, which is now filled with our formattedDateTime
   document.getElementById("datetime").innerText = formattedDateTime;
 }
-//calls the function above
+
+//calls function
 displayDateTime();
-// updates every second
+// updates second every second
 setInterval(displayDateTime, 1000);
 
-// function to display current age
+// Function to calculate age and update messages
 function calculateAge() {
-  // takes the input from the birthday date box's value
+  // const the value of birthdayInput is pulled
   const birthdayInput = document.getElementById("birthdayInput").value;
-  //if there is a birthday input, we need to...
+  // if then
   if (birthdayInput) {
-    // create a constant called birthday using the date from the birthday input
+    // if there is a birthday, take the input and make a date call it birthday
     const birthday = new Date(birthdayInput);
-    // set Now as a new date
+    // take the current date which is NOW
     const now = new Date();
-    // the getFullYear is built into Javascript, this is taking the year and subtracting from birthday years
+    // age is now year -minus- birthday year
     let age = now.getFullYear() - birthday.getFullYear();
-    // this is taking the month and subtracting it from the current month
+    // month difference is now month -minus- birthday month, zero indexed!
     const monthDiff = now.getMonth() - birthday.getMonth();
-
-    // checking if their birthday has happened this year yet!
+    // if the month difference is less than 0, they have not had a birthday yet this year
+    // example, if it's march 02 and birthday is october -09, you subtract that puts us in negatives, meaning
+    // birthday hasn't happened yet.
     if (
-      // if monthDiff is negative, it means the current month is before birthday month
       monthDiff < 0 ||
+      // if month difference is zero and now month is less than birthday month, they have had a birthday
       (monthDiff === 0 && now.getDate() < birthday.getDate())
     ) {
       age--;
+      //
     }
+
+    // Update the age display
     document.getElementById("age").innerText = `They are ${age} years old`;
+
+    // Check if they are over 18 and update the "over18" div
+    if (age >= 18) {
+      document.getElementById("over18").innerText = "Over 18";
+      document.getElementById("over18").classList.add("over18");
+    } else {
+      document.getElementById("over18").innerText = ""; // Clear the text if under 18
+    }
+
+    // Check if they are between 45 and 75 (colonoscopy age) and update the "colonoscopy" div
+    if (age >= 45 && age <= 75) {
+      document.getElementById("colonoscopy").innerText = "Colonoscopy age";
+      document.getElementById("colonoscopy").classList.add("colonoscopy");
+    } else {
+      document.getElementById("colonoscopy").innerText = ""; // Clear the text if not in range
+      document.getElementById("colonoscopy").classList.remove("colonoscopy");
+    }
   } else {
     document.getElementById("age").innerText = "Please enter a DOB";
+    document.getElementById("over18").innerText = ""; // Clear the "over18" message
+    document.getElementById("colonoscopy").innerText = ""; // Clear the "colonoscopy" message
   }
 }
 
+// Add event listener to the date input field
 document
   .getElementById("birthdayInput")
   .addEventListener("input", calculateAge);

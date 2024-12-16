@@ -1,3 +1,6 @@
+body {
+  font-family: "Nunito", sans-serif;
+}
 /* Center header using flexbox */
 header {
   display: flex;
@@ -21,4 +24,51 @@ header h2 {
   grid-template-rows: 1fr;
   grid-column-gap: 0px;
   grid-row-gap: 0px;
+}
+
+#dateInput {
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#dateInput h3 {
+  text-align: center;
+}
+
+#dateInput input {
+  margin: 0 auto;
+}
+
+.age {
+  padding: 1em;
+  text-align: center;
+}
+.colonoscopy {
+  background-color: brown;
+  color: white;
+  text-align: center;
+  padding: 1em;
+}
+
+.over18 {
+  background-color: red;
+  color: white;
+  text-align: center;
+  padding: 1em;
+}
+
+#daysAgo {
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#daysAgo h3 {
+  text-align: center;
+}
+#daysAgo input {
+  margin: 0 auto;
 }
