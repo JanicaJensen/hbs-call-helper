@@ -1,0 +1,24 @@
+/* Center header using flexbox */
+header {
+  display: flex;
+  flex-direction: column; /* Stack the h1 and h2 vertically */
+  align-items: center; /* Horizontally center the content */
+  text-align: center; /* Center text */
+  padding-bottom: 2em;
+}
+
+header h1 {
+  font-family: "Shrikhand", serif;
+}
+
+header h2 {
+  font-family: "Nunito", sans-serif;
+}
+
+.mainGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: 1fr;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+}
