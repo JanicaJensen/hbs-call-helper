@@ -75,7 +75,51 @@ function calculateAge() {
   }
 }
 
+// Function to calculate 275 days ago and 5 years ago
+function calculateDaysAgo() {
+  // Get the claimDate input value
+  const claimDateInput = document.getElementById("claimDate").value;
+
+  if (claimDateInput) {
+    // Convert claimDateInput to a Date object
+    const claimDate = new Date(claimDateInput);
+
+    // Calculate 275 days ago
+    const daysAgo275 = new Date(claimDate);
+    daysAgo275.setDate(daysAgo275.getDate() - 275); // Subtract 275 days
+
+    // Calculate 5 years ago
+    const daysAgo5years = new Date(claimDate);
+    daysAgo5years.setFullYear(daysAgo5years.getFullYear() - 5); // Subtract 5 years
+
+    // Format the calculated dates as strings
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    const formattedDaysAgo275 = daysAgo275.toLocaleDateString("en-US", options);
+    const formattedDaysAgo5Years = daysAgo5years.toLocaleDateString(
+      "en-US",
+      options
+    );
+
+    // Update the respective divs
+    document.getElementById(
+      "daysAgo275"
+    ).innerText = `275 days ago: ${formattedDaysAgo275}`;
+    document.getElementById(
+      "daysAgo5years"
+    ).innerText = `5 years ago: ${formattedDaysAgo5Years}`;
+  } else {
+    // Handle empty input
+    document.getElementById("daysAgo275").innerText =
+      "Please enter a claim date.";
+    document.getElementById("daysAgo5years").innerText = "";
+  }
+}
+
 // Add event listener to the date input field
 document
   .getElementById("birthdayInput")
   .addEventListener("input", calculateAge);
+
+document
+  .getElementById("claimDate")
+  .addEventListener("input", calculateDaysAgo);
