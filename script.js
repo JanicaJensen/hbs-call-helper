@@ -75,8 +75,48 @@ function calculateAge() {
   }
 }
 
-// Function to calculate 275 days ago and 5 years ago
-function calculateDaysAgo() {
+// // Function to calculate 275 days ago and 5 years ago
+// function calculateDaysAgo() {
+//   // Get the claimDate input value
+//   const claimDateInput = document.getElementById("claimDate").value;
+
+//   if (claimDateInput) {
+//     // Convert claimDateInput to a Date object
+//     const claimDate = new Date(claimDateInput);
+
+//     // Calculate 275 days ago
+//     const daysAgo275 = new Date(claimDate);
+//     daysAgo275.setDate(daysAgo275.getDate() - 275); // Subtract 275 days
+
+//     // Calculate 5 years ago
+//     const daysAgo5years = new Date(claimDate);
+//     daysAgo5years.setFullYear(daysAgo5years.getFullYear() - 5); // Subtract 5 years
+
+//     // Format the calculated dates as strings
+//     const options = { year: "numeric", month: "long", day: "numeric" };
+//     const formattedDaysAgo275 = daysAgo275.toLocaleDateString("en-US", options);
+//     const formattedDaysAgo5Years = daysAgo5years.toLocaleDateString(
+//       "en-US",
+//       options
+//     );
+
+//     // Update the respective divs
+//     document.getElementById(
+//       "daysAgo275"
+//     ).innerText = `275 days ago: ${formattedDaysAgo275}`;
+//     document.getElementById(
+//       "daysAgo5years"
+//     ).innerText = `5 years ago: ${formattedDaysAgo5Years}`;
+//   } else {
+//     // Handle empty input
+//     document.getElementById("daysAgo275").innerText =
+//       "Please enter a claim date.";
+//     document.getElementById("daysAgo5years").innerText = "";
+//   }
+//}
+
+// Function to calculate 275 days ago, 5 years ago, and 180 days ahead
+function calculateDays() {
   // Get the claimDate input value
   const claimDateInput = document.getElementById("claimDate").value;
 
@@ -86,16 +126,24 @@ function calculateDaysAgo() {
 
     // Calculate 275 days ago
     const daysAgo275 = new Date(claimDate);
-    daysAgo275.setDate(daysAgo275.getDate() - 275); // Subtract 275 days
+    daysAgo275.setDate(daysAgo275.getDate() - 275);
 
     // Calculate 5 years ago
     const daysAgo5years = new Date(claimDate);
-    daysAgo5years.setFullYear(daysAgo5years.getFullYear() - 5); // Subtract 5 years
+    daysAgo5years.setFullYear(daysAgo5years.getFullYear() - 5);
+
+    // Calculate 180 days ahead
+    const daysAhead180 = new Date(claimDate);
+    daysAhead180.setDate(daysAhead180.getDate() + 180);
 
     // Format the calculated dates as strings
     const options = { year: "numeric", month: "long", day: "numeric" };
     const formattedDaysAgo275 = daysAgo275.toLocaleDateString("en-US", options);
     const formattedDaysAgo5Years = daysAgo5years.toLocaleDateString(
+      "en-US",
+      options
+    );
+    const formattedDaysAhead180 = daysAhead180.toLocaleDateString(
       "en-US",
       options
     );
@@ -107,13 +155,28 @@ function calculateDaysAgo() {
     document.getElementById(
       "daysAgo5years"
     ).innerText = `5 years ago: ${formattedDaysAgo5Years}`;
+    document.getElementById(
+      "daysAhead180"
+    ).innerText = `180 days ahead: ${formattedDaysAhead180}`;
   } else {
     // Handle empty input
     document.getElementById("daysAgo275").innerText =
       "Please enter a claim date.";
     document.getElementById("daysAgo5years").innerText = "";
+    document.getElementById("daysAhead180").innerText = "";
   }
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+  const calendarEl = document.getElementById("calendar");
+  const calendar = new FullCalendar.Calendar(calendarEl, {
+    initialView: "dayGridMonth",
+  });
+  calendar.render();
+});
+
+// Add event listener to the claimDate input
+document.getElementById("claimDate").addEventListener("input", calculateDays);
 
 // Add event listener to the date input field
 document
