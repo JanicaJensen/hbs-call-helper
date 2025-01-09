@@ -23,6 +23,90 @@ displayDateTime();
 // updates second every second
 setInterval(displayDateTime, 1000);
 
+document.addEventListener("DOMContentLoaded", function () {
+  const calendarEl = document.getElementById("calendar");
+  const calendar = new FullCalendar.Calendar(calendarEl, {
+    initialView: "dayGridMonth",
+  });
+  calendar.render();
+});
+
+// Add event listener to the claimDate input
+document.getElementById("claimDate").addEventListener("input", calculateDays);
+
+// Add event listener to the date input field
+document
+  .getElementById("birthdayInput")
+  .addEventListener("input", calculateAge);
+
+document.getElementById("claimDate").addEventListener("input", calculateDays);
+
+function calculateFutureDates() {
+  console.log("Future dates function is running!");
+  const now = new Date();
+
+  // Helper function to calculate business days
+  function addBusinessDays(startDate, days) {
+    let currentDate = new Date(startDate);
+    let addedDays = 0;
+
+    while (addedDays < days) {
+      currentDate.setDate(currentDate.getDate() + 1);
+
+      // Skip weekends (Saturday = 6, Sunday = 0)
+      if (currentDate.getDay() !== 0 && currentDate.getDay() !== 6) {
+        addedDays++;
+      }
+    }
+
+    return currentDate;
+  }
+
+  // Calculate 7 and 10 business days
+  const date7BusinessDays = addBusinessDays(now, 7);
+  const date10BusinessDays = addBusinessDays(now, 10);
+
+  // Calculate 30 calendar days
+  const date30CalendarDays = new Date(now);
+  date30CalendarDays.setDate(date30CalendarDays.getDate() + 30);
+
+  // Format dates for display
+  const options = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+  const formatted7BusinessDays = date7BusinessDays.toLocaleDateString(
+    "en-US",
+    options
+  );
+  const formatted10BusinessDays = date10BusinessDays.toLocaleDateString(
+    "en-US",
+    options
+  );
+  const formatted30CalendarDays = date30CalendarDays.toLocaleDateString(
+    "en-US",
+    options
+  );
+
+  // Update the divs with the calculated dates
+  document.getElementById(
+    "businessDays"
+  ).innerHTML = `7 business days: ${formatted7BusinessDays}<br>10 business days: ${formatted10BusinessDays}`;
+  document.getElementById(
+    "calendarDays"
+  ).innerText = `30 calendar days: ${formatted30CalendarDays}`;
+}
+
+// Call the function
+document.addEventListener("DOMContentLoaded", function () {
+  displayDateTime();
+  calculateFutureDates();
+
+  setInterval(displayDateTime, 1000); // Updates every second
+});
+
 // Function to calculate age and update messages
 function calculateAge() {
   // const the value of birthdayInput is pulled
@@ -75,46 +159,6 @@ function calculateAge() {
   }
 }
 
-// // Function to calculate 275 days ago and 5 years ago
-// function calculateDaysAgo() {
-//   // Get the claimDate input value
-//   const claimDateInput = document.getElementById("claimDate").value;
-
-//   if (claimDateInput) {
-//     // Convert claimDateInput to a Date object
-//     const claimDate = new Date(claimDateInput);
-
-//     // Calculate 275 days ago
-//     const daysAgo275 = new Date(claimDate);
-//     daysAgo275.setDate(daysAgo275.getDate() - 275); // Subtract 275 days
-
-//     // Calculate 5 years ago
-//     const daysAgo5years = new Date(claimDate);
-//     daysAgo5years.setFullYear(daysAgo5years.getFullYear() - 5); // Subtract 5 years
-
-//     // Format the calculated dates as strings
-//     const options = { year: "numeric", month: "long", day: "numeric" };
-//     const formattedDaysAgo275 = daysAgo275.toLocaleDateString("en-US", options);
-//     const formattedDaysAgo5Years = daysAgo5years.toLocaleDateString(
-//       "en-US",
-//       options
-//     );
-
-//     // Update the respective divs
-//     document.getElementById(
-//       "daysAgo275"
-//     ).innerText = `275 days ago: ${formattedDaysAgo275}`;
-//     document.getElementById(
-//       "daysAgo5years"
-//     ).innerText = `5 years ago: ${formattedDaysAgo5Years}`;
-//   } else {
-//     // Handle empty input
-//     document.getElementById("daysAgo275").innerText =
-//       "Please enter a claim date.";
-//     document.getElementById("daysAgo5years").innerText = "";
-//   }
-//}
-
 // Function to calculate 275 days ago, 5 years ago, and 180 days ahead
 function calculateDays() {
   // Get the claimDate input value
@@ -166,23 +210,3 @@ function calculateDays() {
     document.getElementById("daysAhead180").innerText = "";
   }
 }
-
-document.addEventListener("DOMContentLoaded", function () {
-  const calendarEl = document.getElementById("calendar");
-  const calendar = new FullCalendar.Calendar(calendarEl, {
-    initialView: "dayGridMonth",
-  });
-  calendar.render();
-});
-
-// Add event listener to the claimDate input
-document.getElementById("claimDate").addEventListener("input", calculateDays);
-
-// Add event listener to the date input field
-document
-  .getElementById("birthdayInput")
-  .addEventListener("input", calculateAge);
-
-document
-  .getElementById("claimDate")
-  .addEventListener("input", calculateDaysAgo);
